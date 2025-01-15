@@ -19,13 +19,13 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Ajuste para sua região
+          aws-region: us-east-2  # Ajuste para sua região
 
       # Passo 3: Login no ECR
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password --region us-east-1 \
-            | docker login --username AWS --password-stdin 946045011882.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region us-east-2 \
+            | docker login --username AWS --password-stdin 946045011882.dkr.ecr.us-east-2.amazonaws.com
 
       # Passo 4: Build da imagem Docker
       - name: Build Docker image
@@ -35,9 +35,9 @@ jobs:
       # Passo 5: Taguear a imagem
       - name: Tag image
         run: |
-          docker tag my-hello-world-app:latest 946045011882.dkr.ecr.us-east-1.amazonaws.com/my-hello-world-repo:latest
+          docker tag my-hello-world-app:latest 946045011882.dkr.ecr.us-east-2.amazonaws.com/my-hello-world-repo:latest
 
       # Passo 6: Push da imagem para o ECR
       - name: Push to Amazon ECR
         run: |
-          docker push 946045011882.dkr.ecr.us-east-1.amazonaws.com/my-hello-world-repo:latest
+          docker push 946045011882.dkr.ecr.us-east-2.amazonaws.com/my-hello-world-repo:latest
