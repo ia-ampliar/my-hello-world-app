@@ -1,11 +1,24 @@
-# Usar imagem base Python "slim"
-FROM python:3.9-slim
+# Usar Python 3.8 slim
+FROM python:3.8-slim
 
-# Diretório de trabalho no container
+# Instalar pacotes pré-compilados do OpenSlide e suas dependências
+RUN apt-get update && apt-get install -y \
+    libopenslide0 \
+    python3-openslide \
+    # Se quiser instalar as ferramentas CLI do OpenSlide, adicione:
+    # openslide-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Se quiser instalar boto3 e outras libs Python via pip
+RUN pip install --no-cache-dir openslide-python boto3
+
+# Cria um diretório de trabalho
 WORKDIR /app
 
-# Copia o arquivo main.py para dentro do container
+# Copia seu script
 COPY main.py /app/
 
-# Comando para executar o scrip python
+# Comando de entrada (executa o script)
 CMD ["python", "main.py"]
+
+
